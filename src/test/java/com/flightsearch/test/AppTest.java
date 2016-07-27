@@ -1,5 +1,6 @@
 package com.flightsearch.test;
 
+import com.flightsearch.src.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -7,8 +8,8 @@ import org.junit.Test;
 public class AppTest {
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testAirportName() {
+		assertEquals("Madrid",Airport.Madrid.getName());
 	}
 
 }
