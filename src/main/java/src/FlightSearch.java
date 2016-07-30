@@ -34,7 +34,7 @@ public class FlightSearch {
 			System.out.println("No flights available!");
 		}
 		for (Flight f : flights) {
-			System.out.println(f.getFlightNr() + ", " + f.getTotalPrice(this.date, nrAdult, nrChild, nrInfant) + " €");
+			System.out.println(f.getFlightNr() + ", " + f.getTotalPrice(this.date, nrAdult, nrChild, nrInfant) + " E");
 		}
 
 	}
