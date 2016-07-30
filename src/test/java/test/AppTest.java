@@ -22,7 +22,7 @@ public class AppTest {
 
 	@BeforeClass
 	public static void initialize() {
-		data = new LoadData("C:\\Users\\gpop\\git\\flight_search\\src\\test\\resources\\flights.csv");
+		data = new LoadData("src\\test\\resources\\flights.csv");
 	}
 
 	@Test
