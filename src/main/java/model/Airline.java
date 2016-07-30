@@ -1,4 +1,4 @@
-package com.flightsearch.src;
+package model;
 /**
  * 
  */
@@ -9,13 +9,13 @@ package com.flightsearch.src;
  *
  */
 public enum Airline {
-	IB("IB", "Iberia", 10), 
-	BA("BA", "British Airways", 15), 
-	LH("LH", "Lufthansa", 7), 
-	FR("FR", "Ryanair", 20), 
-	VY("VY", "Vueling", 10), 
-	TK("TK", "Turkish Airlines", 5), 
-	U2("U2", "Easyjet", 19.90);
+	Iberia("IB", "Iberia", 10), 
+	British_Airways("BA", "British Airways", 15), 
+	Lufthansa("LH", "Lufthansa", 7), 
+	Ryanair("FR", "Ryanair", 20), 
+	Vueling("VY", "Vueling", 10), 
+	Turkish_Airlines("TK", "Turkish Airlines", 5), 
+	Easyjet("U2", "Easyjet", 19.90);
 
 	private final String code;
 	private final String name;
