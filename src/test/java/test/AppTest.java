@@ -2,8 +2,13 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +45,18 @@ public class AppTest {
 
 	@BeforeClass
 	public static void initialize() {
-		data = new LoadData("src\\test\\resources\\flights.csv");
+		URL stockURL;
+		BufferedReader in = null;
+		try {
+			stockURL = new URL(
+					"https://rawgit.com/georgel-pop/flight_search/master/src/test/resources/flights.csv");
+			in = new BufferedReader(new InputStreamReader(stockURL.openStream()));
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		data = new LoadData(in);// ("src\\test\\resources\\flights.csv");
 	}
 
 	@Test
