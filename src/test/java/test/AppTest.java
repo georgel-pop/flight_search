@@ -173,6 +173,5 @@ public class AppTest {
 		FlightSearch search2 = new FlightSearch(data.getFlights(), Airport.Paris, Airport.Frakfurt, c2.getTime());
 		search2.printFlightPrices(1, 2);
 		assertEquals("no flights available", outContent.toString().trim());
-
 	}
 }
