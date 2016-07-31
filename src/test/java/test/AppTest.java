@@ -2,10 +2,14 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -19,6 +23,20 @@ import src.LoadData;
 public class AppTest {
 
 	static LoadData data;
+	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+
+	@Before
+	public void setUpStreams() {
+		System.setOut(new PrintStream(outContent));
+		System.setErr(new PrintStream(errContent));
+	}
+
+	@After
+	public void cleanUpStreams() {
+		System.setOut(null);
+		System.setErr(null);
+	}
 
 	@BeforeClass
 	public static void initialize() {
@@ -99,37 +117,62 @@ public class AppTest {
 		assertEquals(157.6, found.get(0).getTotalPrice(c.getTime(), 1, 0, 0), 0.01);
 		assertEquals(198.4, found.get(1).getTotalPrice(c.getTime(), 1, 0, 0), 0.01);
 		assertEquals(90.4, found.get(2).getTotalPrice(c.getTime(), 1, 0, 0), 0.01);
+		// test zero passagers
+		assertEquals(0.0, found.get(2).getTotalPrice(c.getTime(), 0, 0, 0), 0.01);
 	}
 
+	/***
+	 * 1 adult, 30 days to the departure date, flying AMS -> FRA
+	 */
 	@Test
-	public void testPrintFlights() {
-		System.out.println("1 adult, 30 days to the departure date, flying AMS -> FRA");
+	public void testPrintFlights1() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
-		c.add(Calendar.DATE, 31);
+		c.add(Calendar.DATE, 30);
 		FlightSearch search = new FlightSearch(data.getFlights(), Airport.Amsterdam, Airport.Frakfurt, c.getTime());
 		search.printFlightPrices(1);
+		assertEquals("TK2372, 197.0 E" + System.lineSeparator() + "TK2659, 248.0 E" + System.lineSeparator()
+				+ "LH5909, 113.0 E", outContent.toString().trim());
+	}
 
-		System.out.println("2 adults, 1 child, 1 infant, 15 days to the departure date, flying LHR -> IST");
+	/***
+	 * 2 adults, 1 child, 1 infant, 15 days to the departure date, flying LHR ->
+	 * IST
+	 */
+	@Test
+	public void testPrintFlights2() {
 		Calendar c0 = Calendar.getInstance();
 		c0.setTime(new Date());
 		c0.add(Calendar.DATE, 15);
 		FlightSearch search0 = new FlightSearch(data.getFlights(), Airport.London, Airport.Istanbul, c0.getTime());
 		search0.printFlightPrices(2, 1, 1);
+		assertEquals("TK8891, 806.0 E" + System.lineSeparator() + "LH1085, 481.192 E", outContent.toString().trim());
+	}
 
-		System.out.println("1 adult, 2 children, 2 days to the departure date, flying BCN -> MAD");
+	/***
+	 * 1 adult, 2 children, 2 days to the departure date, flying BCN -> MAD
+	 */
+	@Test
+	public void testPrintFlights3() {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTime(new Date());
 		c1.add(Calendar.DATE, 2);
 		FlightSearch search1 = new FlightSearch(data.getFlights(), Airport.Barcelona, Airport.Madrid, c1.getTime());
 		search1.printFlightPrices(1, 2);
+		assertEquals("IB2171, 909.09 E" + System.lineSeparator() + "LH5496, 1028.43 E", outContent.toString().trim());
+	}
 
-		System.out.println("1 adult, 2 children, 2 days to the departure date, flying CDG -> FRA");
+	/**
+	 * 1 adult, 2 children, 2 days to the departure date, flying CDG -> FRA
+	 */
+	@Test
+	public void testPrintFlights4() {
 		Calendar c2 = Calendar.getInstance();
 		c2.setTime(new Date());
 		c2.add(Calendar.DATE, 2);
 		FlightSearch search2 = new FlightSearch(data.getFlights(), Airport.Paris, Airport.Frakfurt, c2.getTime());
 		search2.printFlightPrices(1, 2);
+		assertEquals("no flights available", outContent.toString().trim());
 
 	}
 }

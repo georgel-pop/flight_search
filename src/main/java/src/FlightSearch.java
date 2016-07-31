@@ -31,7 +31,7 @@ public class FlightSearch {
 	public void printFlightPrices(int nrAdult, int nrChild, int nrInfant) {
 		List<Flight> flights = searchFlights();
 		if (flights.isEmpty()) {
-			System.out.println("No flights available!");
+			System.out.println("no flights available");
 		}
 		for (Flight f : flights) {
 			System.out.println(f.getFlightNr() + ", " + f.getTotalPrice(this.date, nrAdult, nrChild, nrInfant) + " E");
